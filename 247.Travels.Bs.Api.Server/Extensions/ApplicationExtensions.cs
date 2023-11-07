@@ -156,6 +156,7 @@ namespace _247.Travels.Bs.Api.Server
                 .AddScoped<NdcPriceMarkupProcess>()
                 .AddScoped<NgPriceMarkupProcess>()
                 .AddScoped<UkPriceMarkupProcess>()
+                .AddScoped<BrightSunPriceMarkupProcess>()
                 .AddScoped<CurrencyConversion>()
                 .AddScoped<IMarkupManager, BrightSunPriceMarkupProcess>();
 

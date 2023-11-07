@@ -1,3 +1,4 @@
+using System.Globalization;
 using _247.Travels.Bs.Api.Server;
 using Dna;
 using Dna.AspNet;
@@ -10,6 +11,12 @@ builder.WebHost.UseDnaFramework(construct =>
 {
     // Add configuration
     construct.AddConfiguration(builder.Configuration);
+});
+
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    options.DefaultRequestCulture = new Microsoft.AspNetCore.Localization.RequestCulture("en-NG");
+    options.SupportedCultures = new[] { new CultureInfo("en-NG") };
 });
 
 // Add services to the container.
@@ -62,6 +69,9 @@ app.UseCors("CorsPolicy");
 app.UseAuthorization();
 
 app.UseResponseCaching();
+
+// Use request localization
+app.UseRequestLocalization();
 
 app.MapControllers();
 app.MapControllerRoute(
