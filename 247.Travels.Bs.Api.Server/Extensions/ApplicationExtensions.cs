@@ -152,6 +152,7 @@ namespace _247.Travels.Bs.Api.Server
                 .AddScoped<ActivityManagement>()
                 .AddScoped<DistributionClient>()
                 .AddScoped<DistributionService>()
+                .AddScoped<ProviderDistributionService>()
                 .AddScoped<CorporateCodesManagement>()
                 .AddScoped<NdcPriceMarkupProcess>()
                 .AddScoped<NgPriceMarkupProcess>()
