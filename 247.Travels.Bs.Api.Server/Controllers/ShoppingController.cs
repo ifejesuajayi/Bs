@@ -116,12 +116,12 @@ namespace _247.Travels.Bs.Api.Server
         /// <returns></returns>
         [AllowAnonymous]
         [HttpGet(EndpointRoutes.ProcessOptimizedFlightOffers)]
-        public async Task<ActionResult> ProcessOptimizOffersAsync([FromQuery] string flightRequestId, [FromQuery] string customerType)
+        public async Task<ActionResult> ProcessOptimizOffersAsync([FromQuery] string flightRequestId, [FromQuery] string customerType, string office = "BS")
         {
             try
             {
                 // Process flight offers
-                var operation = await distributionService.ProcessBrightSunOffersAsync(flightRequestId, customerType);
+                var operation = await distributionService.ProcessBrightSunOffersAsync(flightRequestId, customerType, office);
 
                 // If operation was un successful...
                 if (!operation.Successful)
