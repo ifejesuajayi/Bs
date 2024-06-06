@@ -156,6 +156,7 @@ namespace _247.Travels.Bs.Api.Server
                 .AddScoped<ProviderDistributionService>()
                 .AddScoped<CorporateCodesManagement>()
                 .AddScoped<NdcPriceMarkupProcess>()
+                .AddScoped<NdcNairaPriceMarkupProcess>()
                 .AddScoped<NgPriceMarkupProcess>()
                 .AddScoped<UkPriceMarkupProcess>()
                 .AddScoped<BrightSunPriceMarkupProcess>()
@@ -165,6 +166,7 @@ namespace _247.Travels.Bs.Api.Server
                 .AddScoped<TiqwaOperations>()
                 .AddScoped<TiqwaService>()
                 .AddScoped<TiqwaPriceMarkupProcess>()
+                .AddScoped<TiqwaRoutes>()
                 .AddScoped<IMarkupManager, BrightSunPriceMarkupProcess>();
 
             // Return services for further chaining
