@@ -1,0 +1,80 @@
+# Docker
+# Build a Docker image
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+trigger:
+- main
+
+resources:
+- repo: self
+
+variables:
+  imageRepo: brightsun
+  tag: '$(Build.BuildId)'
+
+stages:
+- stage: Build
+  displayName: Build image
+  jobs:
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    - task: Docker@2
+      displayName: Build and push image to Azure container registry 
+      inputs:
+        containerRegistry: 'Acr'
+        repository: '$(imageRepo)'
+        command: 'buildAndPush'
+        Dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
+        tags: |
+          $(tag)
+          latest
+
+    - task: PublishPipelineArtifact@1    #takes the content of the folder (bs-manifest - this is where my k8s yaml files are) publish them and make them available for any other stage after this stage
+      inputs:
+        targetPath: '$(Pipeline.Workspace)/s/bs-manifest'
+        artifact: 'manifests'
+        publishLocation: 'pipeline'
+
+
+                                #Deploy stage
+
+- stage: Deploy
+  displayName: Deploy to Azure kubernetes service
+  dependsOn: Build
+  variables:
+    acrsecret: k8spullsecret
+  jobs:
+    - job: Deploy
+      displayName: Deploy to Azure kubernetes service
+      pool:
+        vmImage: ubuntu-latest
+      steps:
+        - task: DownloadPipelineArtifact@2
+          inputs:
+            buildType: 'current'
+            artifactName: 'manifests'
+            targetPath: '$(Pipeline.Workspace)/manifests'
+
+        - task: KubernetesManifest@1
+          inputs:
+            action: 'createSecret'
+            connectionType: 'kubernetesServiceConnection'
+            kubernetesServiceConnection: 'Aks'
+            namespace: 'default'
+            secretType: 'dockerRegistry'
+            secretName: '$(acrsecret)'
+            dockerRegistryEndpoint: 'Acr'
+
+        - task: KubernetesManifest@1
+          inputs:
+            action: 'deploy'
+            connectionType: 'kubernetesServiceConnection'
+            kubernetesServiceConnection: 'Aks'
+            namespace: 'default'
+            manifests: |
+              $(Pipeline.Workspace)/manifests/bs-deployment.yaml
+              $(Pipeline.Workspace)/manifests/bs-service.yaml
+              $(Pipeline.Workspace)/manifests/bs-ingress.yaml
