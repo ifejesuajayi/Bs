@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: bs-app
-          image: ifejesuaj/brighsun
+          image: ifejesuaj/brightsun
           ports:
             - containerPort: 8060
           env:
