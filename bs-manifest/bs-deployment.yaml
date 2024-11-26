@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: bs-app
-          image: xownsolutions/bs.api.247travels.com
+          image: ifejesuaj/brighsun
           ports:
             - containerPort: 8060
           env:
