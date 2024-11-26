@@ -22,7 +22,7 @@ stages:
       vmImage: ubuntu-latest
     steps:
     - task: Docker@2
-      displayName: Build and push image to Azure container registry 
+      displayName: Build and push image to DockerHub 
       inputs:
         containerRegistry: 'DockerHub'
         repository: '$(imageRepo)'
