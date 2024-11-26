@@ -24,7 +24,7 @@ stages:
     - task: Docker@2
       displayName: Build and push image to Azure container registry 
       inputs:
-        containerRegistry: 'Acr'
+        containerRegistry: 'DockerHub'
         repository: '$(imageRepo)'
         command: 'buildAndPush'
         Dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
