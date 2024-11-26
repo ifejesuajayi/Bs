@@ -10,6 +10,7 @@ resources:
 
 variables:
   imageRepo: brightsun
+  hubUsername: ifejesuaj
   tag: '$(Build.BuildId)'
 
 stages:
@@ -25,7 +26,7 @@ stages:
       displayName: Build and push image to DockerHub 
       inputs:
         containerRegistry: 'DockerHub'
-        repository: '$(imageRepo)'
+        repository: '$(hubUsername)/$(imageRepo)'
         command: 'buildAndPush'
         Dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
         tags: |
