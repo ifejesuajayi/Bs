@@ -27,10 +27,21 @@ steps:
     arguments: '--configuration $(buildConfiguration)'
     projects: '**/*.csproj'
   displayName: 'Build the Project'
-   
+  
+
+- script: dotnet test --configuration $(buildConfiguration) --logger trx
+  displayName: 'Run Unit Tests'
+  
 
 - task: DotNetCoreCLI@2
   inputs:
-    azureSubscription: 'Azure subscription 1(b4d33260-aeee-4fdf-a3b0-6b3b841c473b)'
-    command: 'test'
+    command: test
     projects: '**/*.csproj'
+    arguments: '--configuration $(buildConfiguration)'
+    
+
+- task: PublishTestResults@2
+  condition: succeededOrFailed()
+  inputs:
+    testRunner: VSTest
+    testResultsFiles: '**/*.trx'
