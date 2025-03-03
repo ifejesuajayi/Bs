@@ -29,15 +29,13 @@ steps:
   displayName: 'Build the Project'
   
 
-- script: dotnet test --configuration $(buildConfiguration) --logger trx
-  displayName: 'Run Unit Tests'
-  
-
 - task: DotNetCoreCLI@2
   inputs:
-    command: test
+    command: 'test'
     projects: '**/*.csproj'
     arguments: '--configuration $(buildConfiguration)'
+    testRunTitle: 'unit test'
+  displayName: 'Unit Test'
     
 
 - task: PublishTestResults@2
