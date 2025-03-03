@@ -12,17 +12,25 @@ variables:
 steps:
 - task: NuGetToolInstaller@1
 
-- task: NuGetCommand@2
+- task: DotNetCoreCLI@2
   inputs:
-    restoreSolution: '$(solution)'
+    azureSubscription: 'Azure subscription 1(b4d33260-aeee-4fdf-a3b0-6b3b841c473b)'
+    command: 'restore'
+    projects: '**/*.csproj'
+    feedsToUse: 'select'
+  displayName: 'Restore the Project'
 
-- task: VSBuild@1
+- task: DotNetCoreCLI@2
   inputs:
-    solution: '$(solution)'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    azureSubscription: 'Azure subscription 1(b4d33260-aeee-4fdf-a3b0-6b3b841c473b)'
+    command: 'build'
+    arguments: '--configuration $(buildConfiguration)'
+    projects: '**/*.csproj'
+  displayName: 'Build the Project'
+   
 
-- task: VSTest@2
+- task: DotNetCoreCLI@2
   inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    azureSubscription: 'Azure subscription 1(b4d33260-aeee-4fdf-a3b0-6b3b841c473b)'
+    command: 'test'
+    projects: '**/*.csproj'
