@@ -1,14 +1,6 @@
 trigger:
 - main
 
-pool:
-  vmImage: 'ubuntu-latest'
-
-variables:
-  solution: '**/*.sln'
-  buildPlatform: 'Any CPU'
-  buildConfiguration: 'Release'
-
 stages:
 - stage: Build
   displayName: Build and push stage
@@ -33,7 +25,7 @@ stages:
       inputs:
         azureSubscription: 'Azure subscription 1(b4d33260-aeee-4fdf-a3b0-6b3b841c473b)'
         command: 'build'
-        arguments: '--configuration $(buildConfiguration)'
+        arguments: '--configuration $(BUILDCONFIGURATION)'
         projects: '**/*.csproj'
       displayName: 'Build the Project'
 
