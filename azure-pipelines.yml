@@ -9,37 +9,40 @@ variables:
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
-steps:
-- task: NuGetToolInstaller@1
+stages:
+- stage: Build
+  displayName: Build and push stage
+  jobs:
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: $(VMIMAGENAME)
 
-- task: DotNetCoreCLI@2
-  inputs:
-    azureSubscription: 'Azure subscription 1(b4d33260-aeee-4fdf-a3b0-6b3b841c473b)'
-    command: 'restore'
-    projects: '**/*.csproj'
-    feedsToUse: 'select'
-  displayName: 'Restore the Project'
+    steps:
+    - task: NuGetToolInstaller@1
 
-- task: DotNetCoreCLI@2
-  inputs:
-    azureSubscription: 'Azure subscription 1(b4d33260-aeee-4fdf-a3b0-6b3b841c473b)'
-    command: 'build'
-    arguments: '--configuration $(buildConfiguration)'
-    projects: '**/*.csproj'
-  displayName: 'Build the Project'
-  
+    - task: DotNetCoreCLI@2
+      inputs:
+        azureSubscription: 'Azure subscription 1(b4d33260-aeee-4fdf-a3b0-6b3b841c473b)'
+        command: 'restore'
+        projects: '**/*.csproj'
+        feedsToUse: 'select'
+      displayName: 'Restore the Project'
 
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'test'
-    projects: '**/*.csproj'
-    arguments: '--configuration $(buildConfiguration)'
-    testRunTitle: 'unit test'
-  displayName: 'Unit Test'
-    
+    - task: DotNetCoreCLI@2
+      inputs:
+        azureSubscription: 'Azure subscription 1(b4d33260-aeee-4fdf-a3b0-6b3b841c473b)'
+        command: 'build'
+        arguments: '--configuration $(buildConfiguration)'
+        projects: '**/*.csproj'
+      displayName: 'Build the Project'
 
-- task: PublishTestResults@2
-  condition: succeededOrFailed()
-  inputs:
-    testRunner: VSTest
-    testResultsFiles: '**/*.trx'
+
+    - task: Docker@2
+      displayName: Build and push an image to container registry
+      inputs:
+        containerRegistry: '247-ACR'
+        repository: '247travels-BS-API'
+        command: 'buildAndPush'
+        Dockerfile: '**/Dockerfile'
+        tags: '$(TAG)'
