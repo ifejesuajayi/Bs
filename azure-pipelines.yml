@@ -1,5 +1,7 @@
 trigger:
-- main
+ tags:
+   include:
+     - v*
 
 stages:
 - stage: Build
