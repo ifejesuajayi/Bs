@@ -1,6 +1,8 @@
 trigger:
-- main
-
+ tags:
+   include:
+     - v*
+     
 stages:
 - stage: Build
   displayName: Build and push stage
