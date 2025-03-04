@@ -5,14 +5,23 @@ trigger:
 
 stages:
 - stage: Build
-  displayName: Build and push stage
+  displayName: Build Test and push stage
   jobs:
   - job: Build
-    displayName: Build
+    displayName: Build Test and push stage
     pool:
       vmImage: $(VMIMAGENAME)
 
     steps:
+
+    - task: SonarCloudPrepare@3
+      inputs:
+        SonarQube: 'SonarQube'
+        organization: 'ifejesuajayi'
+        scannerMode: 'dotnet'
+        dotnetScannerVersion: '9.2.1.110358'
+        projectKey: 'ifejesuajayi'
+        projectName: 'Test Code'
 
     - task: DotNetCoreCLI@2
       inputs:
@@ -27,7 +36,17 @@ stages:
         projects: '**/*.csproj'
       displayName: 'Build the Project'
 
+    - task: SonarCloudAnalyze@3
+      inputs:
+        jdkversion: 'JAVA_HOME_21_X64'
+      displayName: Analyze Sonar
 
+    - task: SonarCloudPublish@3
+      inputs:
+        pollingTimeoutSec: '300'
+      displayName: 'Publish SonarCloud Results'
+    
+  
     - task: Docker@2
       displayName: Build and push an image to container registry
       condition: succeeded() #Only run if tests pass
