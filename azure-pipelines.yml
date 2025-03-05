@@ -14,14 +14,13 @@ stages:
 
     steps:
 
-    - task: SonarCloudPrepare@3
+    - task: SonarQubePrepare@7
       inputs:
-        SonarQube: 'SonarQube'
-        organization: 'ifejesuajayi'
+        SonarQube: 'SonarQube-server'
         scannerMode: 'dotnet'
         dotnetScannerVersion: '9.2.1.110358'
-        projectKey: 'ifejesuajayi'
-        projectName: 'Test Code'
+        projectKey: 'Xownsolutions_Xownsolutions_0a79e702-3765-4a58-9751-857824764bb3'
+        projectName: 'Xownsolutions-Test'
 
     - task: DotNetCoreCLI@2
       inputs:
@@ -35,17 +34,15 @@ stages:
         arguments: '--configuration $(BUILDCONFIGURATION)'
         projects: '**/*.csproj'
       displayName: 'Build the Project'
-
-    - task: SonarCloudAnalyze@3
+    
+  
+    - task: SonarQubeAnalyze@7
       inputs:
-        jdkversion: 'JAVA_HOME_21_X64'
-      displayName: Analyze Sonar
-
-    - task: SonarCloudPublish@3
+        jdkversion: 'JAVA_HOME_17_X64'
+      
+    - task: SonarQubePublish@7
       inputs:
         pollingTimeoutSec: '300'
-      displayName: 'Publish SonarCloud Results'
-    
   
     - task: Docker@2
       displayName: Build and push an image to container registry
