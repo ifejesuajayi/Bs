@@ -21,7 +21,9 @@ stages:
         dotnetScannerVersion: '9.2.1.110358'
         projectKey: 'Xownsolutions_Xownsolutions_a9eefa67-1c98-4e3a-8b94-c59688aef6f0'
         projectName: 'Xownsolutions-Test'
-        extraProperties: 'sonar.branch.name='
+        extraProperties: | 
+          'sonar.branch.name='
+           sonar.qualitygate.wait=true
 
     - task: DotNetCoreCLI@2
       inputs:
@@ -49,7 +51,7 @@ stages:
   
     - task: Docker@2
       displayName: Build and push an image to container registry
-      condition: succeeded() #Only run if tests pass
+      condition: and(succeeded(), eq(variables['SONARQUBEQUALITYGATESTATUS'], 'Passed')) #only run if quality gate passes
       inputs:
         containerRegistry: '247-ACR'
         repository: '247travels-BS-API'
