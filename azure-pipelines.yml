@@ -21,6 +21,7 @@ stages:
         dotnetScannerVersion: '9.2.1.110358'
         projectKey: 'Xownsolutions_Xownsolutions_6a5aca6a-964e-49a9-b422-b08be69dc92e'
         projectName: 'Xownsolutions-Test'
+        extraProperties: sonar.branch.name=
 
     - task: DotNetCoreCLI@2
       inputs:
@@ -39,6 +40,8 @@ stages:
     - task: SonarQubeAnalyze@7
       inputs:
         jdkversion: 'JAVA_HOME_17_X64'
+      env:
+        SONAR_SCANNER_OPTS: "-Dsonar.branch.name="
       
     - task: SonarQubePublish@7
       inputs:
