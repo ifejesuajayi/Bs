@@ -16,10 +16,10 @@ stages:
 
     - task: SonarQubePrepare@7
       inputs:
-        SonarQube: 'SonarQube-server'
+        SonarQube: 'Sonar-xown'
         scannerMode: 'dotnet'
         dotnetScannerVersion: '9.2.1.110358'
-        projectKey: 'Xownsolutions_Xownsolutions_0a79e702-3765-4a58-9751-857824764bb3'
+        projectKey: 'Xownsolutions_Xownsolutions_6a5aca6a-964e-49a9-b422-b08be69dc92e'
         projectName: 'Xownsolutions-Test'
 
     - task: DotNetCoreCLI@2
