@@ -16,12 +16,12 @@ stages:
 
     - task: SonarQubePrepare@7
       inputs:
-        SonarQube: 'Sonar-xown'
+        SonarQube: 'xownsol-sonar'
         scannerMode: 'dotnet'
         dotnetScannerVersion: '9.2.1.110358'
-        projectKey: 'Xownsolutions_Xownsolutions_6a5aca6a-964e-49a9-b422-b08be69dc92e'
+        projectKey: 'Xownsolutions_Xownsolutions_a9eefa67-1c98-4e3a-8b94-c59688aef6f0'
         projectName: 'Xownsolutions-Test'
-        extraProperties: sonar.branch.name=
+        extraProperties: 'sonar.branch.name='
 
     - task: DotNetCoreCLI@2
       inputs:
