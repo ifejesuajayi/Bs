@@ -13,7 +13,10 @@ stages:
       vmImage: $(VMIMAGENAME)
 
     steps:
-
+    
+    - script: |
+        curl -v http://51.8.238.136:9000/api/server/version
+      displayName: 'Check connectivity'
     - task: SonarQubePrepare@7
       inputs:
         SonarQube: 'xownsol-sonar'
