@@ -17,15 +17,15 @@ stages:
     - script: |
         curl -v http://51.8.238.136:9000/api/server/version
       displayName: 'Check connectivity'
+
     - task: SonarQubePrepare@7
       inputs:
-        SonarQube: 'xownsol-sonar'
+        SonarQube: 'Sonar-server'
         scannerMode: 'dotnet'
         dotnetScannerVersion: '9.2.1.110358'
         projectKey: 'Xownsolutions_Xownsolutions_a9eefa67-1c98-4e3a-8b94-c59688aef6f0'
         projectName: 'Xownsolutions-Test'
-        extraProperties: |
-          'sonar.branch.name='
+        extraProperties: '''sonar.branch.name='''
 
     - task: DotNetCoreCLI@2
       inputs:
@@ -50,10 +50,6 @@ stages:
     - task: SonarQubePublish@7
       inputs:
         pollingTimeoutSec: '300'
-  
-    - script: |
-        echo "Quality Gate Status: $(SONARQUBEQUALITYGATESTATUS)"
-      displayName: "Check Quality Gate Status"
 
     - task: Docker@2
       displayName: Build and push an image to container registry
