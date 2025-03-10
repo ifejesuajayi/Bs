@@ -23,7 +23,6 @@ stages:
         projectName: 'Xownsolutions-Test'
         extraProperties: |
           'sonar.branch.name='
-           sonar.qualitygate.wait=true
 
     - task: DotNetCoreCLI@2
       inputs:
