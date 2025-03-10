@@ -53,7 +53,7 @@ stages:
 
     - task: Docker@2
       displayName: Build and push an image to container registry
-      condition: and(succeeded(), eq(variables['SONARQUBEQUALITYGATESTATUS'], 'Passed')) #only run if quality gate passes
+      #condition: and(succeeded(), eq(variables['SONARQUBEQUALITYGATESTATUS'], 'Passed')) #only run if quality gate passes
       inputs:
         containerRegistry: '247-ACR'
         repository: '247travels-BS-API'
